@@ -114,5 +114,36 @@ dz_dx_no_chain = diff(z.subs(y, _y))
 print(dz_dx_chain)    # 6*x*(x**2 + 1)**2
 print(dz_dx_no_chain) # 6*x*(x**2 + 1)**2
 
+## 1-26 ##
+def approximate_integral(a, b, n, f) :
+    delta_x = (b - a) / n
+    print("delta_x= ", delta_x)
+    total_sum = 0
+
+    for i in range(1, n+1) :
+        midpoint = 0.5 * (2 * a + delta_x * (2 * i - 1))
+        print("midpoint= ", midpoint)
+        total_sum += f(midpoint)
+        print("total_sum= ", total_sum)
+
+    return total_sum * delta_x
+
+def my_function(x) :
+    print(x**2 + 1)
+    return x**2 + 1
+
+area = approximate_integral(a=0, b=1, n=5, f=my_function)
+print(area) # 1.33
+
+## Sample 1-29 ##
+print("\n")
+print("===================")
+print("=== Sample 1-29 ===")
+print("===================")
+x = symbols('x')
+f = x**2 + 1
+area = integrate(f, (x, 0, 1))
+print(area)
+
 
 
