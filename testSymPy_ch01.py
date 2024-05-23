@@ -146,4 +146,38 @@ area = integrate(f, (x, 0, 1))
 print(area)
 
 
+print("\n")
+print("====================")
+print("===    練習題    ===")
+print("====================")
+
+# (1) 10**7 * 10**(-5)
+
+x = symbols('x y')
+x = 10**7
+y = 10**(-5)
+f = x * y
+print(f)
+
+# (5)
+p = 1000
+r = 0.05
+n = 12
+t = 3
+f = p * (1 + r / n)**(n*t)
+print(f)
+
+
+# (7) 微分
+x, y = symbols('x y')
+z = 3 * x**2 + 1
+dx_dy = diff(z)
+print(dx_dy.subs(x, 3))
+
+# (8) 積分
+# f(x) = 3*x**2 + 1, 在0和2之間的曲線下面積是多少？
+x = symbols('x')
+f = 3 * x**2 + 1
+area = integrate(f, (x, 0, 2))
+print(area)
 
