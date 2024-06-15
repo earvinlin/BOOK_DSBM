@@ -84,6 +84,29 @@ x = norm.cdf(21, mean, std_dev) - norm.cdf(15, mean, std_dev)
 print(x)
 
 
+#-- Sample 3-19 --#
+print("#-- Sample 3-19 --#")
+from scipy.stats import norm
+mean = 18
+std_dev = 1.5
+x = norm.ppf(.05, mean, std_dev)
+print("Sample 3-19 :", x)
+
+
+#-- Sample 3-20 --#
+print("#-- Sample 3-20 --#")
+# 感冒的恢復時間平均為18天，標準差為1.5天
+mean = 18
+std_dev = 1.5
+# 16天或更少天的機率
+p_value = norm.cdf(16, mean, std_dev)
+
+print("Sample 3-20 :", p_value)
+
+
+
+
+"""
 print("\n\n\n")
 print("==============")
 print("\n")
@@ -98,3 +121,5 @@ for i in range(11) :
 
 y_values = [1 for _ in range(30)]
 print(y_values)
+
+"""
