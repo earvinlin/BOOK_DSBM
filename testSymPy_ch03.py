@@ -123,3 +123,13 @@ y_values = [1 for _ in range(30)]
 print(y_values)
 
 """
+
+def critical_z_value_std1_5(p) :
+    # loc : mean ; scale : standard deviation
+    norm_dist = norm(loc = 0.0, scale = 1.5)
+    left_tail_area = (1.0 - p) / 2.0
+    upper_area = 1.0 -((1.0 - p) / 2.0)
+    # cpf : 累計分佈函數指定點的函數值
+    # ppf : 累計分佈函數的逆函數(即分位點)
+    return norm_dist.ppf(left_tail_area), norm_dist.ppf(upper_area)
+print(critical_z_value_std1_5(0.95))
