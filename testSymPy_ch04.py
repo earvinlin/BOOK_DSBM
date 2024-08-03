@@ -102,8 +102,13 @@ det() :
 計算矩陣的行列式，要求輸入計算的行列式的矩陣，輸入形狀要求最後的兩個維度相等，
 並且返回形狀為N的行列式，需要保證輸入的矩陣形狀最後的兩個維度
 
-transpose() :
-
+transpose(a, axes=None) :
+  parameter :
+    a : input array
+    axes : opt. list. 預設情況下，反轉維度，否則根據給定的值對軸進行排列。
+    ex :
+    (1) no param.
+        shape (2, 3, 4) --> (4, 3, 2)
 """
 from numpy.linalg import det
 from numpy import array
