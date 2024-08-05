@@ -101,6 +101,10 @@ print("combined.dot(v) : ",combined.dot(v)) # [-1, 1]
 det() : 
 計算矩陣的行列式，要求輸入計算的行列式的矩陣，輸入形狀要求最後的兩個維度相等，
 並且返回形狀為N的行列式，需要保證輸入的矩陣形狀最後的兩個維度
+  Parameters :
+    a(N, M, M) array_like
+  Returns :
+    det(N) array_like
 
 transpose(a, axes=None) :
   parameter :
@@ -120,3 +124,19 @@ basis = array([i_hat, j_hat]).transpose()
 determinant = det(basis)
 print(determinant) # print 6.0
 
+#-- Sample 4-14 --#
+print("\n#-- Sample 4-14 --#")
+
+from numpy.linalg import det
+from numpy import array
+
+i_hat = array([1, 0, 2])
+j_hat = array([1, 1, 1])
+print(i_hat.shape, j_hat.shape)
+
+print(array([i_hat, j_hat]).shape, array([i_hat, j_hat]))
+basis = array([i_hat, j_hat]).transpose()
+print(basis.shape, basis)
+
+#determinant = det(basis)
+#print(determinant) # print 1.0
