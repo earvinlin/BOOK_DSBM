@@ -105,7 +105,9 @@ det() :
     a(N, M, M) array_like
   Returns :
     det(N) array_like
-
+det A = |a b| = ad - bc
+        |c d|
+    
 transpose(a, axes=None) :
   parameter :
     a : input array
@@ -140,3 +142,46 @@ print(basis.shape, basis)
 
 #determinant = det(basis)
 #print(determinant) # print 1.0
+
+
+#-- Sample 4-16 --#
+print("\n#-- Sample 4-16 --#")
+
+from numpy.linalg import det
+from numpy import array
+
+i_hat = array([-2, 1])
+j_hat = array([3, -1.5])
+
+basis = array([i_hat, j_hat]).transpose()
+determinant = det(basis)
+
+print(determinant) # print 0.0
+
+
+#-- Sample 4-17 --#
+print("\n#-- Sample 4-17 --#")
+from sympy import *
+
+# 4x + 2y + 4z = 44
+# 5x + 3y + 7z = 56
+# 9x + 3y + 6z = 72
+
+A = Matrix([[4, 2, 4], [5, 3, 7], [9, 3, 6]])
+
+# A和它的反矩陣之間的點積會產生單位矩陣
+inverse = A.inv()
+identity = inverse * A
+
+# print Matrix([[-1/2, 0, 1/3], [11/2, -2, -4/3], [-2, 1, 1/3]])
+print("INVERSE: {}".format(inverse))
+
+# print Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+print("IDENTITY: {}".format(identity))
+
+
+
+
+
+
+
