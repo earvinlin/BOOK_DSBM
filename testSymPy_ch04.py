@@ -180,6 +180,98 @@ print("INVERSE: {}".format(inverse))
 print("IDENTITY: {}".format(identity))
 
 
+#-- Sample 4-18 --#
+print("\n#-- Sample 4-18 --#")
+from numpy import array
+from numpy.linalg import inv
+
+# 4x + 2y + 4z = 44
+# 5x + 3y + 7z = 56
+# 9x + 3y + 6z = 72
+
+A = array([[4, 2, 4], [5, 3, 7], [9, 3, 6]])
+B = array([44, 56, 72])
+X = inv(A).dot(B)
+print(X)  # [2. 34. -8.]
+
+
+#-- Sample 4-19 --#
+# 使用SymPy求解方程組
+print("\n#-- Sample 4-19 --#")
+from sympy import * 
+
+A = Matrix([[4, 2, 4], [5, 3, 7], [9, 3, 6]])
+B = Matrix([44, 56, 72])
+X = A.inv() * B
+print(X)  # Matrix([[2], [34], [-8]])
+
+
+#-- Sample 4-20 --#
+# 在NumPy中執行特徵分解
+print("\n#-- Sample 4-20 --#")
+from numpy import array, diag
+from numpy.linalg import eig, inv
+
+A = array([[1, 2], [4, 5]])
+eigenvals, eigenvecs = eig(A)
+
+print("EIGENVALUES")
+print(eigenvals)
+print("\nEIGENVECTORS")
+print(eigenvecs)
+
+"""
+EIGENVALUES
+[-0.46410162  6.46410162]
+
+EIGENVECTORS
+[[-0.80689822 -0.34372377]
+ [ 0.59069049 -0.9390708 ]]
+"""
+
+
+#-- Sample 4-21 --#
+# 在NumPy中分解和重組矩陣
+print("\n#-- Sample 4-21 --#")
+from numpy import array, diag
+from numpy.linalg import eig, inv
+
+A = array([[1, 2], [4, 5]])
+eigenvals, eigenvecs = eig(A)
+
+print("EIGENVALUES")
+print(eigenvals)
+print("\nEIGENVECTORS")
+print(eigenvecs)
+
+print("\nREBUILD MATRIX")
+Q = eigenvecs
+R = inv(Q)
+L = diag(eigenvals)
+B = Q @ L @ R
+print(B)
+
+"""
+EIGENVALUES
+[-0.46410162  6.46410162]
+
+EIGENVECTORS
+[[-0.80689822 -0.34372377]
+ [ 0.59069049 -0.9390708 ]]
+
+REBUILD MATRIX
+[[1. 2.]
+ [4. 5.]]
+"""
+
+
+
+
+
+
+
+
+
 
 
 
