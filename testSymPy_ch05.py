@@ -96,12 +96,31 @@ import numpy as np
 # 匯入資料點
 df = pd.read_csv('https://bit.ly/2KF29Bd', delimiter=",")
 
+print("df= ", df, "\ndf.shape= ", df.shape)
+"""
+df= x   y
+0   1   5
+1   2  10
+2   3  10
+3   4  15
+4   5  14
+5   6  15
+6   7  19
+7   8  18
+8   9  25
+9  10  23
+df.shape = (10,2)
+"""
+
 # 提取輸入變數(所有列、除了最後一行之外的所有行)
 X = df.values[:, :-1].flatten()
+print("X= ", X, "\nX.shape= ", X.shape)
 # 添加占位符"1"行來產生截距
 X_1 = np.vstack([X, np.ones(len(X))]).T
+print("X_1= ", X_1, "\nX_1.shape= ", X_1.shape)
 # 提取輸出行(所有列、最後一行)
 Y = df.values[:, -1]
+print("Y= ", Y, "\nY.shape= ", Y.shape)
 
 # 計算斜率和截距係數
 b = inv(X_1.transpose() @ X_1) @ (X_1.transpose() @ Y)
