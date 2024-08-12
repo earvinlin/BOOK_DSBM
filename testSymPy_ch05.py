@@ -115,7 +115,7 @@ df.shape = (10,2)
 # 提取輸入變數(所有列、除了最後一行之外的所有行)
 X = df.values[:, :-1].flatten()
 print("X= ", X, "\nX.shape= ", X.shape)
-# 添加占位符"1"行來產生截距
+# 添加占位符"1"行來產生截距 (np.ones(5) -> array([1., 1., 1., 1., 1.]))
 X_1 = np.vstack([X, np.ones(len(X))]).T
 print("X_1= ", X_1, "\nX_1.shape= ", X_1.shape)
 # 提取輸出行(所有列、最後一行)
@@ -131,21 +131,71 @@ y_predict = X_1.dot(b)
 
 
 #-- Sample5-7 --#
+"""
+線性代數
+使用矩陣X，並像前面一樣在它後面添加一個額外的1行以產生截距β0，然後再把它分為為兩個分量陣Q, R
+X = Q * R
+可以使用Q and R來找到陣形式b中的beta係數值
+b = R(-1) * Q(T) * y  ### (-1), (T)表示上標
+"""
 print("#-- Sample5-7 --#")
 import pandas as pd
 from numpy.linalg import qr, inv
 import numpy as np
 
-df = pd.read_csv('https://bit.ly/2KF29Bd', delimiter=",")
+#df = pd.read_csv('https://bit.ly/2KF29Bd', delimiter=",")
+df = pd.read_csv('sample5-2_data.csv', delimiter=",")
+print("df= ", df)
 
 X = df.values[:, :-1].flatten()
+print("X= ", X)
+
+X_0 = np.vstack([X, np.ones(len(X))])
+print("X_0= ", X_0)
+
 X_1 = np.vstack([X, np.ones(len(X))]).transpose()
+print("X_1= ", X_1)
+
 Y= df.values[:, -1]
+print("Y= ", Y)
 
 Q, R = qr(X_1)
 b = inv(R).dot(Q.transpose()).dot(Y)
 
 print(b) # [1.93939394 4.73333333]
+
+
+#-- Sample5-8 --#
+print("#-- Sample5-8 --#")
+import random
+
+def f(x) :
+    return (x - 3)**2 + 4
+
+def dx_f(x) :
+    return 2 * (x - 3)
+
+# 學習率
+L = 0.001
+# 執行梯度下降之迭代次數
+iterations = 100_000
+# 從隨機的x開始
+x = random.randint(-15, 15)
+
+for i in range(iterations) :
+    # 取得斜率
+    d_x = dx_f(x)
+    #透過減去 (學習率) * (斜率) 來更新 x
+    x -= L * d_x
+
+print(x, f(x))  # print 2.999999999999889 4.0
+
+
+
+
+
+
+
 
 
 
