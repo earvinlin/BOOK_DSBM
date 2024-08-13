@@ -17,8 +17,8 @@ Y = df.values[:, -1]
 
 fit = LinearRegression().fit(X, Y)
 
-m = fit.coef_.flatten()
-b = fit.intercept_.flatten()
+m = fit.coef_.flatten()         # coef_      : 斜率
+b = fit.intercept_.flatten()    # intercept_ : 截距
 print("m = {0}".format(m))
 print("b = {0}".format(b))
 
@@ -189,6 +189,60 @@ for i in range(iterations) :
     x -= L * d_x
 
 print(x, f(x))  # print 2.999999999999889 4.0
+
+
+#-- Sample5-9 --#
+print("#-- Sample5-9 --#")
+import pandas as pd
+
+df = pd.read_csv('sample5-2_data.csv', delimiter=",")
+
+# 建構模型
+m = 0.0
+b = 0.0
+
+# 學習率
+L = .001
+
+# 迭代次數
+iterations = 100_000
+
+n = float(len(points)) # X 的元素數量
+
+# 執行梯度下降
+for i in range(iterations) :
+    # 對m的斜率
+    D_m = sum(2 * p.x * ((m * p.x + b) - p.y) for p in points)
+    # 對b的斜率
+    D_b = sum(2 * ((m * p.x + b) - p.y) for p in points)
+    # 更新m and b
+    m -= L * D_m
+    b -= L * D_b
+
+print("y = {0}x + {1}".format(m, b)) 
+# y = 1.9393939393939548x + 4.733333333333227
+
+
+#-- Sample5-10 --#
+print("#-- Sample5-10 --#")
+from sympy import *
+
+m, b, i, n = symbols('m b i n')
+x, y = symbols('x y', cls=Function)
+
+sum_of_squares = Sum((m*x(i)+b - y(i))**2, (i, 0, n))
+
+d_m = diff(sum_of_squares, m)
+d_b = diff(sum_of_squares, b)
+
+print(d_m)
+print(d_b)
+# Output
+# Sum(2*(b + m*x(i) - y(i))*x(i), (i, 0, n))
+# Sum(2*b + 2*m*x(i) - 2*y(i), (i, 0, n))
+
+
+
 
 
 
