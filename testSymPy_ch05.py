@@ -244,7 +244,44 @@ print(d_b)
 
 #-- Sample5-11 --#
 print("#-- Sample5-11 --#")
+import pandas as pd
+from sympy import *
 
+df = pd.read_csv('sample5-2_data.csv', delimiter=",")
+
+m, b, i, n = symbols('m b i n')
+x, y = symbols('x y', cls=Function)
+
+sum_of_squares = Sum((m*x(i) + b - y(i)) ** 2, (i, 0, n))
+
+d_m = diff(sum_of_squares, m) \
+    .subs(n, len(points) - 1).doit() \
+    .replace(z, lambda i: points[i].x) \
+    .replace(y, lambda i: points[i].y)
+
+d_b = diff(sum_of_squares, b) \
+    .subs(n, len(points) - 1).doit() \
+    .replace(z, lambda i: points[i].x) \
+    .replace(y, lambda i: points[i].y)
+
+# use lambdify來編譯以加快計算
+d_m = lambdify([m, b], d_m)
+d_b = lambdify([m, b], d_b)
+
+# 建構模型
+m = 0.0
+b = 0.0
+# 學習率
+L = .001
+# 迭代次數
+iterations = 100_000
+# 執行梯度下降
+for i in range(iterations) :
+    # 更新執行梯度
+    m -= d_m(m, b) * L
+    b -= d_b(m, b) * L
+
+print("y = {0}x + {1}".format(m, b))
 
 
 
