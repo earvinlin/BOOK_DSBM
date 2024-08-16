@@ -8,3 +8,4 @@ def my_function(x) :
 slope_at_2 = derivative_x(my_function, 2, .00001)
 
 print(slope_at_2)
+
