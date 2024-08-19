@@ -243,7 +243,7 @@ print(d_b)
 
 
 #-- Sample5-11 --#
-print("#-- Sample5-11 --#")
+print("\n#-- Sample5-11 --#")
 import pandas as pd
 from sympy import *
 
@@ -263,6 +263,31 @@ d_b = diff(sum_of_squares, b) \
     .subs(n, len(points) - 1).doit() \
     .replace(x, lambda i: points[i].x) \
     .replace(y, lambda i: points[i].y)
+
+
+
+#-- FOR TESTING START --#
+"""
+subs() usage : https://vimsky.com/examples/usage/python-sympy-subs-method-2.html
+        subs方法是SymPy中常用的替代变量方法之一。它可以将符号变量替换为其他符号变量
+        、数值或表达式。
+doit() usage : https://vimsky.com/examples/usage/python-sympy-doit-method.html
+        使用doit()simpy模組中的方法，我們可以評估預設未評估的對象，例如限制，積分，
+        總和和乘積。請注意，將對所有此類物件進行遞歸求值。 
+replace() usage : https://geek-docs.com/sympy/sympy-questions/139_sympy_sympy_subs_vs_replace_vs_xreplace.html#google_vignette
+        replace方法是SymPy中另一个常用的替代变量方法。它功能类似于subs方法，可以将
+        符号变量替换为其他符号变量、数值或表达式。
+"""
+#d_m1 = diff(sum_of_squares, m).subs(n, len(points) - 1).doit()
+d_m0 = diff(sum_of_squares, m)
+d_m1 = diff(sum_of_squares, m).subs(n, len(points) - 1)
+d_m2 = diff(sum_of_squares, m).subs(n, len(points) - 1).doit()
+print("d_m0: ", d_m0)
+print("d_m1: ", d_m1)
+print("d_m2: ", d_m2)
+#-- FOR TESTING END   --#
+
+
 
 # use lambdify來編譯以加快計算
 d_m = lambdify([m, b], d_m)
