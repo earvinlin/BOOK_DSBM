@@ -277,6 +277,14 @@ doit() usage : https://vimsky.com/examples/usage/python-sympy-doit-method.html
 replace() usage : https://geek-docs.com/sympy/sympy-questions/139_sympy_sympy_subs_vs_replace_vs_xreplace.html#google_vignette
         replace方法是SymPy中另一个常用的替代变量方法。它功能类似于subs方法，可以将
         符号变量替换为其他符号变量、数值或表达式。
+lambdify() usage : https://github.com/sympy/sympy/blob/2197797741156d9cb73a8d1462f7985598e9b1a9/sympy/utilities/lambdify.py#L187-L933
+    sympy.utilities.lambdify.lambdify(args, expr, modules=None, printer=None, use_imps=True, dummify=False, cse=False, docstring_limit=1000)
+    modules : str, optional
+                Specifies the numeric library to use.
+                If not specified, modules defaults to:
+                ["scipy", "numpy"] if SciPy is installed
+                ["numpy"] if only NumPy is installed
+                ["math", "mpmath", "sympy"] if neither is installed.
 """
 #d_m1 = diff(sum_of_squares, m).subs(n, len(points) - 1).doit()
 d_m0 = diff(sum_of_squares, m)
@@ -308,6 +316,24 @@ for i in range(iterations) :
 
 print("y = {0}x + {1}".format(m, b))
 # y = 1.939393939393954x + 4.733333333333231
+
+
+#-- Sample5-12 --#
+print("\n#-- Sample5-12 --#")
+from sympy import *
+from sympy.plotting import plot3d
+import pandas as pd
+
+points = list(pd.read_csv("sample5-2_data.csv").itertuples())
+m, b, i, n = symbols('m b i n')
+x, y = symbols('x y', cls=Function)
+
+sum_of_squares = Sum((m*x(i) + b - y(i)) ** 2, (i, 0, n)) \
+    .subs(n, len(points)- 1).doit() \
+    .replace(x, lambda i: points[i].x) \
+    .replace(y, lambda i: points[i].y)
+
+plot3d(sum_of_squares)
 
 
 
