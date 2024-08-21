@@ -336,8 +336,26 @@ sum_of_squares = Sum((m*x(i) + b - y(i)) ** 2, (i, 0, n)) \
 plot3d(sum_of_squares)
 
 
+#-- Sample5-13 --#
+print("\n#-- Sample5-13 --#")
+import pandas as pd
+import numpy as np
 
+data = pd.read_csv("sample5-2_data.csv", head=0)
+X = data.iloc[:, 0].values
+Y = data.iloc(:, 1).values
 
+n = data.shape[0]
+
+m = 0.0
+b = 0.0
+
+sample_size = 1
+L = .0001
+epochs = 1_000_000
+
+for i in range(epochs) :
+    factor_terms
 
 
 
