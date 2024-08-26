@@ -341,21 +341,56 @@ print("\n#-- Sample5-13 --#")
 import pandas as pd
 import numpy as np
 
-data = pd.read_csv("sample5-2_data.csv", head=0)
+# 輸入資料
+data = pd.read_csv("sample5-2_data.csv", header=0)
+#data = pd.read_csv("https://bit.ly/2KF29Bd", head=0)
+print("data: ", data)
+# 1 ~ 3 row 0 ~ 3 col
+# df.iloc[1:3, 0:3]
 X = data.iloc[:, 0].values
-Y = data.iloc(:, 1).values
+Y = data.iloc[:, 1].values
 
-n = data.shape[0]
+print("X: ", X)
+print("Y: ", Y)
 
+n = data.shape[0]   # 列
+
+# 建構模型
 m = 0.0
 b = 0.0
 
-sample_size = 1
-L = .0001
-epochs = 1_000_000
+sample_size = 1     # 樣本大小
+L = .0001           # 學習率
+epochs = 1_000_000  # 執行梯度下降之迭代次數
 
+#  執行隨機梯度下降
 for i in range(epochs) :
-    factor_terms
+    idx = np.random.choice(n, sample_size, replace=False)
+
+x_sample = X[idx]
+y_sample = Y[idx]
+
+# Y 目前的預測值
+Y_pred = m * x_sample + b
+
+# 損失函數的d/dm微分
+D_m = (-2 / sample_size) * sum(x_sample * (y_sample - Y_pred))
+
+# 損失函數的d/db微分
+D_b = (-2 / sample_size) * sum(y_sample - Y_pred)
+m = m - L * D_m # 更新m
+b = b - L * D_b # 更新b
+
+# 印出進度
+if i % 10000 == 0 :
+    print(i, m, b)
+
+print("y = {0}x + {1}".format(m, b))
+
+
+
+
+
 
 
 
