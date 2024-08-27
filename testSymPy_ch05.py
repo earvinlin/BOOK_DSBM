@@ -388,6 +388,79 @@ if i % 10000 == 0 :
 print("y = {0}x + {1}".format(m, b))
 
 
+#-- Sample5-14 --#
+print("\n#-- Sample5-14 --#")
+# 使用pandas來查看每對變數之間的相關係數
+import pandas as pd
+
+df = pd.read_csv("sample5-2_data.csv", delimiter=",")
+
+# 印出變數間的相關係數
+correlations = df.corr(method='pearson')
+print(correlations)
+
+
+#-- Sample5-15 --#
+print("\n#-- Sample5-15 --#")
+# 計算相關係數
+import pandas as pd
+from math import sqrt
+
+points = list(pd.read_csv("sample5-2_data.csv").itertuples())
+n = len(points)
+
+#print("points= ", points, "; n= ", n)
+numerator = n * sum(p.x * p.y for p in points) - \
+    sum(p.x for p in points) * sum(p.y for p in points)
+denominator = sqrt(n * sum(p.x**2 for p in points) - sum(p.x for p in points)**2) \
+    * sqrt(n * sum(p.y**2 for p in points) - sum(p.y for p in points)**2)
+
+corr = numerator / denominator
+
+print(corr)
+
+
+#-- Sample5-16 --#
+print("\n#-- Sample5-16 --#")
+# 從T分布計算臨界值
+from scipy.stats import t
+
+n = 10                
+lower_cv = t(n-1).ppf(.025)
+upper_cv = t(n-1).ppf(.975)
+
+print(lower_cv, upper_cv)
+
+
+#-- Sample5-17 --#
+print("\n#-- Sample5-17 --#")
+# 檢定看似線性資料的顯著性
+from scipy.stats import t
+from math import sqrt
+
+n = 10
+lower_cv = t(n-1).ppf(.025)
+upper_cv = t(n-1).ppf(.975)
+
+r = 0.957586
+
+test_value = r / sqrt((1 - r**2) / (n - 2))
+
+print("TEST VALUE: {}".format(test_value))
+print("CRITICAL RANGE: {}, {}".format(lower_cv, upper_cv))
+
+if test_value < lower_cv or test_value > upper_cv :
+    print("CORRELATION PROVEN, REJECT H0")
+else :
+    print("CORRELATION NOT PROVEN, FAILED TO REJECT H0")
+
+if test_value > 0 :
+    p_value = 1.0 - t(n-1).cdf(test_value)
+else :
+    p_value = t(n-1).cdf(test_value)
+
+p_value = p_value * 2
+print("P-VALUE: {}".format(p_value))
 
 
 
