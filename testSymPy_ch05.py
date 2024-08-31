@@ -463,6 +463,75 @@ p_value = p_value * 2
 print("P-VALUE: {}".format(p_value))
 
 
+#-- Sample5-18 --#
+print("\n#-- Sample5-18 --#")
+# 在Pandas中建立相關矩陣
+
+df = pd.read_csv("sample5-2_data.csv")
+
+# 印出變數間之相關性
+coeff_determination = df.corr(method='pearson')**2
+print(coeff_determination)
+
+
+#-- Sample5-19 --#
+print("\n#-- Sample5-19 --#")
+# 計算估計標準誤差
+import pandas as pd
+from math import sqrt
+
+points = list(pd.read_csv("sample5-2_data.csv").itertuples())
+n = len(points)
+
+# 迴歸線
+m = 1.939
+b = 4.733
+
+# 計算估計標準誤差
+S_e = sqrt((sum((p.y - (m * p.x + b))**2 for p in points)) / (n-2))
+print(S_e)
+
+
+#-- Sample5-20 --#
+print("\n#-- Sample5-20 --#")
+# 計算8.5歲狗的獸醫訪問次數預測區間
+import pandas as pd
+from scipy.stats import t
+from math import sqrt
+
+#points = list(pd.read_csv("sample5-2_data.csv").itertuples())
+points = list(pd.read_csv('https://bit.ly/2KF29Bd', delimiter=',').itertuples())
+n = len(points)
+
+# 線性迴歸線
+m = 1.939
+b = 4.733
+
+# 計算 x = 8.5 的預測區間
+x_0 = 8.5
+x_mean = sum(p.x for p in points) / len(points)
+t_value = t(n-2).ppf(.975)
+standard_error = sqrt(sum((p.y - (m*p.x+b))**2 for p in points) / (n-2))
+margin_of_error = t_value * standard_error * \
+    sqrt(1 + (1 / n) + (n * (x_0 - x_mean)**2) / \
+         (n * sum(p.x**2 for p in points) - \
+          sum(p.x for p in points)**2))
+predicted_y = m * x_0 + b
+print(predicted_y - margin_of_error, predicted_y + margin_of_error)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
