@@ -46,6 +46,95 @@ print(model.coef_.flatten())      # 0.69267212
 print(model.intercept_.flatten()) # -3.17576395
 
 
+#-- Sample 6-4 --#
+print("\n#-- Sample 6-4 --#")
+# 計算觀察給定邏輯迴歸的所有點的聯合概似度
+import math
+import pandas as pd
+
+patient_data = pd.read_csv('sample6-3_data.csv', delimiter=",").itertuples()
+
+b0 = -3.17576395
+b1 = 0.69267212
+
+def logistic_function(x) :
+    p = 1.0 / (1.0 + math.exp(-(b0 + b1 * x)))
+    return p
+
+# 計算聯合概似度
+joint_likelihood = 1.0
+
+for p in patient_data :
+    if p.y == 1.0 :
+        joint_likelihood *= logistic_function(p.x)
+    elif p.y == 0.0 :
+        joint_likelihood *= (1.0 - logistic_function(p.x))
+
+### another writing ###
+"""
+#-- Sample 6-5 --#
+for p in patient_data :
+    joint_likelihood *= logistic_function(p.x) ** p.y \
+                        (1.0 - logistic_function(p.x)) ** (1.0 - p.y)
+"""
+print(joint_likelihood) # 4.7911180221699105e-05
+
+
+#-- Sample 6-6 --#
+print("\n#-- Sample 6-6 --#")
+# 使用對數加法
+
+# 計算聯合概似度
+joint_likelihood = 0.0
+
+for p in patient_data :
+    joint_likelihood += math.log(logistic_function(p.x) ** p.y * \
+                                 (1.0 - logistic_function(p.x) ** (1.0 - p.y)))
+joint_likelihood = math.exp(joint_likelihood)
+
+print(joint_likelihood)
+
+
+#-- Sample 6-8 --#
+print("\n#-- Sample 6-8 --#")
+# 在邏輯迴歸中使用梯度下降
+from sympy import *
+import pandas as pd
+
+#points = list(pd.read_csv("https://tinyurl.com/y2cocoo7").itertuples())
+points = list(pd.read_csv('sample6-4_data.csv').itertuples())
+
+b1, b0, i, n = symbols('b1 b0 i n')
+x, y = symbols('x y', cls=Function)
+joint_likelihood = sum(log((1.0 / (1.0 + exp(-(b0 + b1 * x(i))))) ** y(i) * \
+                           (1.0 - (1.0 / (1.0 + exp(-(b0 + b1 * x(i)))))) ** (1 - y(i))), (i, 0, n))
+# 對m進行偏微分，其中點被替換了
+d_b1 = diff(joint_likelihood, b1) \
+                    .subs(n, len(points) - 1).doit() \
+                    .replace(x, lambda i: points[i].x) \
+                    .replace(y, lambda i: points[i].y)
+
+d_b0 = diff(joint_likelihood, b0) \
+                    .subs(n, len(points) - 1).doit() \
+                    .replace(x, lambda i: points[i].x) \
+                    .replace(y, lambda i: points[i].y)
+
+# 使用lambdify來編譯以計算地更快
+d_b1 = lambdify([b1, b0], d_b1)
+d_b0 = lambdify([b1, b0], d_b0)
+
+# 執行梯度下降
+b1 = 0.01
+b0 = 0.01
+L = .01
+
+for j in range(10_000) :
+    b1 += d_b1(b1, b0) * L
+    b0 += d_b0(b1, b0) * L
+
+print(b1, b0)
+
+
 
 
 
