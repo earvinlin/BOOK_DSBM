@@ -95,6 +95,16 @@ joint_likelihood = math.exp(joint_likelihood)
 print(joint_likelihood)
 
 
+
+"""
+#-- Sample 6-8 --#
+<<<執行後的錯誤訊息>>>
+Traceback (most recent call last):
+  File "D:\WORKSPACES\GithubProjects\BOOK_DSBM\testSymPy_ch06.py", line 109, in <module>
+    joint_likelihood = sum(log((1.0 / (1.0 + exp(-(b0 + b1 * x(i))))) ** y(i) * \
+TypeError: 'log' object is not iterable
+
+
 #-- Sample 6-8 --#
 print("\n#-- Sample 6-8 --#")
 # 在邏輯迴歸中使用梯度下降
@@ -133,11 +143,41 @@ for j in range(10_000) :
     b0 += d_b0(b1, b0) * L
 
 print(b1, b0)
+"""
 
 
+#-- Sample 6-9 --#
+print("\n#-- Sample 6-9 --#")
+# 對員工資料進行多變數邏輯迴歸
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
 
+#employee_data = pd.read_csv("https://tinyurl.com/y6r7qjrp")
+employee_data = pd.read_csv("sample6-5_data.csv")
 
-
+# 抓取自變數行
+inputs = employee_data.iloc[:, :-1]
+# 抓取因變數"did_quit"行
+output = employee_data.iloc[:, -1]
+# 建構邏輯迴歸
+fit = LogisticRegression(penalty='none').fit(inputs, output)
+# 印出係數
+print("COEFFICIENTS: {0}".format(fit.coef_.flatten()))
+print("INTERCEPT: {0}".format(fit.coef_.flatten()))
+#互動並測試新員工資料
+def predict_employee_will_stay(sex, age, promotions, years_employed) :
+    prediction = fit.predict([[sex, age, promotions, years_employed]])
+    probabilities = fit.predict_proba([[sex, age, promotions, years_employed]])
+    if prediction == [[1]] :
+        return "WILL LEAVE: {0}".format(probabilities)
+    else :
+        return "WILL STAY: {0}".format(probabilities)
+    
+# 測試預測
+while True :
+    n = input("Predict employee will stay or leave {sex},{age},{promotions},{years employed} :")
+    (sex, age, promotions, years_employed) = n.split(",")
+    print(predict_employee_will_stay(int(sex), int(age), int(promotions), int(years_employed)))
 
 
 
